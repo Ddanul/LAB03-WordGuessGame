@@ -10,6 +10,7 @@ namespace LAB03_WordGuessGame
             Console.WriteLine("Welcome To Your Own Personal Word Guess Game!");
             CreateWordBankFile();
             Controller();
+
         }
 
         static void Controller()
@@ -18,7 +19,7 @@ namespace LAB03_WordGuessGame
             while (!exit)
             {
                 Console.WriteLine("What would you like to do? ");
-                Console.WriteLine("[0] Home; [1] View Word Bank; [2] Add Word; [3] Remove Word; [4] Play Game [5] Exit");
+                Console.WriteLine("[0] Home; [1] View Word Bank; [2] Add Word; [3] Remove Word; [4] Play Game; [5] Admin; [6] Exit");
                 int option = Convert.ToInt32(Console.ReadLine());
             
                 switch (option)
@@ -43,6 +44,9 @@ namespace LAB03_WordGuessGame
                         PlayGame();
                         continue;
                     case 5:
+                        AdminController();
+                        continue;
+                    case 6:
                         exit = true;
                         continue;
                     default:
@@ -52,6 +56,21 @@ namespace LAB03_WordGuessGame
             }
         }
 
+        static void AdminController()
+        {
+            Console.WriteLine("**ADMIN DASHBOARD***");
+            Console.WriteLine("Delete File? [Y/N]");
+            string option = Console.ReadLine();
+            if(option.ToUpper() == "Y")
+            {
+                string path = "../../../WordBank.txt";
+                DeleteWordBankFile(path);
+            }
+        }
+
+        /// <summary>
+        /// Method creates new word bank text file with 4 default words.
+        /// </summary>
         static void CreateWordBankFile()
         {
             string path = "../../../WordBank.txt";
@@ -106,7 +125,10 @@ namespace LAB03_WordGuessGame
             Console.WriteLine("Game is starting");
         }
 
-        static void DeletWordBankFile()
+        /// <summary>
+        /// Method deletes word bank text file.
+        /// </summary>
+        static void DeleteWordBankFile(string path)
         {
             File.Delete(path);
         }
