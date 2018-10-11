@@ -96,7 +96,21 @@ namespace LAB03_WordGuessGame
         /// <param name="newWord">Word to be added to word bank</param>
         static void AddWordToBank(string newWord)
         {
-            Console.WriteLine("Added Word To Bank");
+            string path = "../../../WordBank.txt";
+
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                try
+                {
+                    sw.WriteLine(newWord);
+                    Console.WriteLine("Added Word To Bank");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Your Word encountered an error!");
+                }
+            }
+            
         }
 
 
