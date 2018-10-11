@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace LAB03_WordGuessGame
 {
@@ -7,6 +8,7 @@ namespace LAB03_WordGuessGame
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome To Your Own Personal Word Guess Game!");
+            CreateWordBankFile();
             Controller();
         }
 
@@ -50,6 +52,25 @@ namespace LAB03_WordGuessGame
             }
         }
 
+        static void CreateWordBankFile()
+        {
+            string path = "../../../WordBank.txt";
+            try
+            {
+                string[] defaultWords= new string[4];
+                defaultWords[0] = "Cupcake";
+                defaultWords[1] = "Kitty";
+                defaultWords[2] = "Curls";
+                defaultWords[3] = "Testing";
+
+                File.WriteAllLines(path, defaultWords);
+            }
+            catch(Exception)
+            {
+                Console.WriteLine("Something Bad Happened.");
+            }
+        }
+
         /// <summary>
         /// Appends new word into txt file
         /// </summary>
@@ -83,6 +104,11 @@ namespace LAB03_WordGuessGame
         static void PlayGame()
         {
             Console.WriteLine("Game is starting");
+        }
+
+        static void DeletWordBankFile()
+        {
+            File.Delete(path);
         }
 
     }
