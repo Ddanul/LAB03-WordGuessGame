@@ -140,8 +140,17 @@ namespace LAB03_WordGuessGame
         /// <param name="removeWord">word to be removed from txt file</param>
         static void RemoveWordFromBank(string removeWord, string path)
         {
-
-            Console.WriteLine("Word Removed From Bank");
+            string[] words = File.ReadAllLines(path);
+            int indexOfWordInArray = Array.IndexOf(words, removeWord);
+            if (indexOfWordInArray < 0)
+            {
+                Console.WriteLine("Word not found.");
+            }
+            else
+            {
+                 
+                Console.WriteLine($"'{removeWord}' was removed from the word bank");
+            }
         }
 
         /// <summary>
