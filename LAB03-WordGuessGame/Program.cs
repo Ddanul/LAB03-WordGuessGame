@@ -8,7 +8,9 @@ namespace LAB03_WordGuessGame
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome To Your Own Personal Word Guess Game!");
-            CreateWordBankFile();
+            string path = "../../../WordBank.txt";
+
+            CreateWordBankFile(path);
             Controller();
 
         }
@@ -21,24 +23,25 @@ namespace LAB03_WordGuessGame
                 Console.WriteLine("What would you like to do? ");
                 Console.WriteLine("[0] Home; [1] View Word Bank; [2] Add Word; [3] Remove Word; [4] Play Game; [5] Admin; [6] Exit");
                 int option = Convert.ToInt32(Console.ReadLine());
-            
+                string path = "../../../WordBank.txt";
+
                 switch (option)
                 {
                     case 0:
                         Controller();
                         continue;
                     case 1:
-                        ViewWordBank();
+                        ViewWordBank(path);
                         continue;
                     case 2:
                         Console.WriteLine("Enter New Word: ");
                         string newWord = Console.ReadLine();
-                        AddWordToBank(newWord);
+                        AddWordToBank(newWord, path);
                         continue;
                     case 3:
                         Console.WriteLine("Enter Word To Be Removed: ");
                         string removeWord = Console.ReadLine();
-                        RemoveWordFromBank(removeWord);
+                        RemoveWordFromBank(removeWord, path);
                         continue;
                     case 4:
                         PlayGame();
@@ -71,9 +74,8 @@ namespace LAB03_WordGuessGame
         /// <summary>
         /// Method creates new word bank text file with 4 default words.
         /// </summary>
-        static void CreateWordBankFile()
+        static void CreateWordBankFile(string path)
         {
-            string path = "../../../WordBank.txt";
             try
             {
                 string[] defaultWords= new string[4];
@@ -94,14 +96,12 @@ namespace LAB03_WordGuessGame
         /// Appends new word into txt file
         /// </summary>
         /// <param name="newWord">Word to be added to word bank</param>
-        static void AddWordToBank(string newWord)
+        static void AddWordToBank(string newWord, string path)
         {
-            string path = "../../../WordBank.txt";
-
             using (StreamWriter sw = File.AppendText(path))
             {
                 try
-                {
+                { 
                     sw.WriteLine(newWord);
                     Console.WriteLine("Added Word To Bank");
                 }
@@ -117,17 +117,30 @@ namespace LAB03_WordGuessGame
         /// <summary>
         /// Reads and Displays text from file
         /// </summary>
-        static void ViewWordBank()
+        static void ViewWordBank(string path)
         {
-            Console.WriteLine("This is the Word Bank");
+            try
+            {
+                string[] words = File.ReadAllLines(path);
+                Console.WriteLine("This is the Word Bank");
+                foreach (string word in words)
+                {
+                    Console.WriteLine(word);
+                }
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
         /// Removes Word from txt file
         /// </summary>
         /// <param name="removeWord">word to be removed from txt file</param>
-        static void RemoveWordFromBank(string removeWord)
+        static void RemoveWordFromBank(string removeWord, string path)
         {
+
             Console.WriteLine("Word Removed From Bank");
         }
 
