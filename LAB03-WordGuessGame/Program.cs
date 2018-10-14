@@ -44,7 +44,7 @@ namespace LAB03_WordGuessGame
                         RemoveWordFromBank(removeWord, path);
                         continue;
                     case 4:
-                        PlayGame();
+                        PlayGame(path);
                         continue;
                     case 5:
                         AdminController();
@@ -180,11 +180,102 @@ namespace LAB03_WordGuessGame
         }
 
         /// <summary>
+        /// Chooses random word to be used for game
+        /// </summary>
+        /// <param name="path">random word</param>
+        /// <returns>random word in word bank</returns>
+        static string ChooseRandomWord(string path)
+        {
+            Random rand = new Random();
+            string[] words = File.ReadAllLines(path);
+            int randomIndex = rand.Next(words.Length);
+            string randomWord = words[randomIndex];
+            Console.WriteLine($"Random word chosen: {randomWord}");
+            return randomWord;
+        }
+
+        /// <summary>
+        /// Updates word with either _ or letters based on guessed letter
+        /// </summary>
+        /// <param name="word">word used for game</param>
+        /// <param name="guessedLetters">list of letters guessed by user</param>
+        /// <returns>char array filled with either _ or letters for display</returns>
+        static string[] UpdateWordWithGuesses(string word, string[] guessedLetters)
+        {
+            string[] updatedWord = new string[word.Length];
+            string[] newWord = new string[word.Length];
+            for(int x=0; x<newWord.Length; x++)
+            {
+                newWord[x] = word[x].ToString();
+            }
+            for (int i=0; i < newWord.Length; i++)
+            {
+                //Console.WriteLine($"*** {newWord[i]}");
+                updatedWord[i] = Array.IndexOf(guessedLetters, newWord[i]) > -1 ? newWord[i] : "_";
+                //Console.WriteLine($"%%% {updatedWord}");
+            }
+            return updatedWord;
+        }
+
+        /// <summary>
+        /// Iterates through array and displays in console
+        /// </summary>
+        /// <param name="array">string array to be displayed</param>
+        static void DisplayCharArray(string[] array)
+        {
+            for(int i=0; i<array.Length; i++)
+            {
+                Console.Write($"{array[i]} ");
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Checks to see if there are underscores
+        /// </summary>
+        /// <param name="wordToCheck">string array with letters and underscores</param>
+        /// <returns></returns>
+        static bool CheckWin(string[] wordToCheck)
+        {
+            if(Array.IndexOf(wordToCheck, "_") == -1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Initiates games
         /// </summary>
-        static void PlayGame()
+        static void PlayGame(string path)
         {
+            string[] guessedLetters = new string[27];
+            guessedLetters[0] = " ";
             Console.WriteLine("Game is starting");
+            string randomWord = ChooseRandomWord(path);
+            int count = 0;
+
+            while (!CheckWin(UpdateWordWithGuesses(randomWord, guessedLetters)) && count<26)
+            {
+                //Display updated word with spaces
+                Console.WriteLine("Game Word: ");
+                DisplayCharArray(UpdateWordWithGuesses(randomWord, guessedLetters));
+                //Display guessed letters
+                Console.WriteLine("Guesses: ");
+                DisplayCharArray(guessedLetters);
+                //Ask for new letter from user
+                Console.Write("Guess A Letter: ");
+                guessedLetters[count] = Console.ReadLine();
+                count++;
+            }
+
+            if(count == 26)
+            {
+                Console.WriteLine("You ran out of tries!");
+            }
+            Console.WriteLine("The word was: ");
+            DisplayCharArray(UpdateWordWithGuesses(randomWord, guessedLetters));
+            Console.WriteLine("Great Game!");
         }
 
         /// <summary>
