@@ -97,7 +97,7 @@ namespace LAB03_WordGuessGame
         /// Appends new word into txt file
         /// </summary>
         /// <param name="newWord">Word to be added to word bank</param>
-        public static void AddWordToBank(string newWord, string path)
+        public static bool AddWordToBank(string newWord, string path)
         {
             using (StreamWriter sw = File.AppendText(path))
             {
@@ -113,13 +113,15 @@ namespace LAB03_WordGuessGame
                 }
             }
 
+            return true;
+
         }
 
 
         /// <summary>
         /// Reads and Displays text from file
         /// </summary>
-        public static void ViewWordBank(string path)
+        public static string[] ViewWordBank(string path)
         {
             try
             {
@@ -129,6 +131,7 @@ namespace LAB03_WordGuessGame
                 {
                     Console.WriteLine(word);
                 }
+                return words;
             }
             catch (Exception)
             {
