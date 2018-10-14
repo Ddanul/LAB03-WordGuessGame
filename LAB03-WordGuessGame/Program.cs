@@ -64,7 +64,7 @@ namespace LAB03_WordGuessGame
             Console.WriteLine("**ADMIN DASHBOARD***");
             Console.WriteLine("Delete File? [Y/N]");
             string option = Console.ReadLine();
-            if(option.ToUpper() == "Y")
+            if (option.ToUpper() == "Y")
             {
                 string path = "../../../WordBank.txt";
                 DeleteWordBankFile(path);
@@ -78,15 +78,15 @@ namespace LAB03_WordGuessGame
         {
             try
             {
-                string[] defaultWords= new string[4];
-                defaultWords[0] = "Cupcake";
-                defaultWords[1] = "Kitty";
-                defaultWords[2] = "Curls";
-                defaultWords[3] = "Testing";
+                string[] defaultWords = new string[4];
+                defaultWords[0] = "CUPCAKE";
+                defaultWords[1] = "KITTY";
+                defaultWords[2] = "CURLS";
+                defaultWords[3] = "POPCORN";
 
                 File.WriteAllLines(path, defaultWords);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Console.WriteLine("Something Bad Happened.");
             }
@@ -101,7 +101,8 @@ namespace LAB03_WordGuessGame
             using (StreamWriter sw = File.AppendText(path))
             {
                 try
-                { 
+                {
+                    newWord = newWord.ToUpper();
                     sw.WriteLine(newWord);
                     Console.WriteLine("Added Word To Bank");
                 }
@@ -110,7 +111,7 @@ namespace LAB03_WordGuessGame
                     Console.WriteLine("Your Word encountered an error!");
                 }
             }
-            
+
         }
 
 
@@ -128,7 +129,7 @@ namespace LAB03_WordGuessGame
                     Console.WriteLine(word);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -150,20 +151,20 @@ namespace LAB03_WordGuessGame
             else
             {
                 //make new array without word
-                string[] newWords = new string[words.Length-1];
-                for(int i=0; i<words.Length; i++)
+                string[] newWords = new string[words.Length - 1];
+                for (int i = 0; i < words.Length; i++)
                 {
-                    if(i == indexOfWordInArray)
+                    if (i == indexOfWordInArray)
                     {
                         continue;
                     }
-                    else if(i < indexOfWordInArray)
+                    else if (i < indexOfWordInArray)
                     {
                         newWords[i] = words[i];
                     }
                     else
                     {
-                        newWords[i-1] = words[i];
+                        newWords[i - 1] = words[i];
                     }
                 }
                 //re-write words to file without deleted word
@@ -190,7 +191,6 @@ namespace LAB03_WordGuessGame
             string[] words = File.ReadAllLines(path);
             int randomIndex = rand.Next(words.Length);
             string randomWord = words[randomIndex];
-            Console.WriteLine($"Random word chosen: {randomWord}");
             return randomWord;
         }
 
@@ -204,15 +204,13 @@ namespace LAB03_WordGuessGame
         {
             string[] updatedWord = new string[word.Length];
             string[] newWord = new string[word.Length];
-            for(int x=0; x<newWord.Length; x++)
+            for (int x = 0; x < newWord.Length; x++)
             {
                 newWord[x] = word[x].ToString();
             }
-            for (int i=0; i < newWord.Length; i++)
+            for (int i = 0; i < newWord.Length; i++)
             {
-                //Console.WriteLine($"*** {newWord[i]}");
                 updatedWord[i] = Array.IndexOf(guessedLetters, newWord[i]) > -1 ? newWord[i] : "_";
-                //Console.WriteLine($"%%% {updatedWord}");
             }
             return updatedWord;
         }
@@ -223,7 +221,7 @@ namespace LAB03_WordGuessGame
         /// <param name="array">string array to be displayed</param>
         static void DisplayCharArray(string[] array)
         {
-            for(int i=0; i<array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 Console.Write($"{array[i]} ");
             }
@@ -237,7 +235,7 @@ namespace LAB03_WordGuessGame
         /// <returns></returns>
         static bool CheckWin(string[] wordToCheck)
         {
-            if(Array.IndexOf(wordToCheck, "_") == -1)
+            if (Array.IndexOf(wordToCheck, "_") == -1)
             {
                 return true;
             }
@@ -255,7 +253,7 @@ namespace LAB03_WordGuessGame
             string randomWord = ChooseRandomWord(path);
             int count = 0;
 
-            while (!CheckWin(UpdateWordWithGuesses(randomWord, guessedLetters)) && count<26)
+            while (!CheckWin(UpdateWordWithGuesses(randomWord, guessedLetters)) && count < 26)
             {
                 //Display updated word with spaces
                 Console.WriteLine("Game Word: ");
@@ -269,13 +267,18 @@ namespace LAB03_WordGuessGame
                 count++;
             }
 
-            if(count == 26)
+            if (count == 26)
             {
                 Console.WriteLine("You ran out of tries!");
+                Console.WriteLine($"The word was: {randomWord}");
+                Console.WriteLine("Great Game!");
             }
-            Console.WriteLine("The word was: ");
-            DisplayCharArray(UpdateWordWithGuesses(randomWord, guessedLetters));
-            Console.WriteLine("Great Game!");
+            else
+            {
+                Console.WriteLine("The word was: ");
+                DisplayCharArray(UpdateWordWithGuesses(randomWord, guessedLetters));
+                Console.WriteLine("Great Game!");
+            }
         }
 
         /// <summary>
