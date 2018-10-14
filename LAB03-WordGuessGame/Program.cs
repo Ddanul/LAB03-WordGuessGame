@@ -3,9 +3,9 @@ using System.IO;
 
 namespace LAB03_WordGuessGame
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Welcome To Your Own Personal Word Guess Game!");
             string path = "../../../WordBank.txt";
@@ -14,7 +14,7 @@ namespace LAB03_WordGuessGame
             Controller();
         }
 
-        static void Controller()
+        public static void Controller()
         {
             bool exit = false;
             while (!exit)
@@ -58,7 +58,7 @@ namespace LAB03_WordGuessGame
             }
         }
 
-        static void AdminController()
+        public static void AdminController()
         {
             Console.WriteLine("**ADMIN DASHBOARD***");
             Console.WriteLine("Delete File? [Y/N]");
@@ -73,7 +73,7 @@ namespace LAB03_WordGuessGame
         /// <summary>
         /// Method creates new word bank text file with 4 default words.
         /// </summary>
-        static void CreateWordBankFile(string path)
+        public static bool CreateWordBankFile(string path)
         {
             try
             {
@@ -89,13 +89,15 @@ namespace LAB03_WordGuessGame
             {
                 Console.WriteLine("Something Bad Happened.");
             }
+
+            return File.Exists(path);
         }
 
         /// <summary>
         /// Appends new word into txt file
         /// </summary>
         /// <param name="newWord">Word to be added to word bank</param>
-        static void AddWordToBank(string newWord, string path)
+        public static void AddWordToBank(string newWord, string path)
         {
             using (StreamWriter sw = File.AppendText(path))
             {
@@ -117,7 +119,7 @@ namespace LAB03_WordGuessGame
         /// <summary>
         /// Reads and Displays text from file
         /// </summary>
-        static void ViewWordBank(string path)
+        public static void ViewWordBank(string path)
         {
             try
             {
@@ -138,7 +140,7 @@ namespace LAB03_WordGuessGame
         /// Removes Word from txt file
         /// </summary>
         /// <param name="removeWord">word to be removed from txt file</param>
-        static void RemoveWordFromBank(string removeWord, string path)
+        public static void RemoveWordFromBank(string removeWord, string path)
         {
             string[] words = File.ReadAllLines(path);
             int indexOfWordInArray = Array.IndexOf(words, removeWord.ToUpper());
@@ -184,7 +186,7 @@ namespace LAB03_WordGuessGame
         /// </summary>
         /// <param name="path">random word</param>
         /// <returns>random word in word bank</returns>
-        static string ChooseRandomWord(string path)
+        public static string ChooseRandomWord(string path)
         {
             Random rand = new Random();
             string[] words = File.ReadAllLines(path);
@@ -199,7 +201,7 @@ namespace LAB03_WordGuessGame
         /// <param name="word">word used for game</param>
         /// <param name="guessedLetters">list of letters guessed by user</param>
         /// <returns>char array filled with either _ or letters for display</returns>
-        static string[] UpdateWordWithGuesses(string word, string[] guessedLetters)
+        public static string[] UpdateWordWithGuesses(string word, string[] guessedLetters)
         {
             string[] updatedWord = new string[word.Length];
             string[] newWord = new string[word.Length];
@@ -218,7 +220,7 @@ namespace LAB03_WordGuessGame
         /// Iterates through array and displays in console
         /// </summary>
         /// <param name="array">string array to be displayed</param>
-        static void DisplayCharArray(string[] array)
+        public static void DisplayCharArray(string[] array)
         {
             for (int i = 0; i < array.Length; i++)
             {
@@ -232,7 +234,7 @@ namespace LAB03_WordGuessGame
         /// </summary>
         /// <param name="wordToCheck">string array with letters and underscores</param>
         /// <returns></returns>
-        static bool CheckWin(string[] wordToCheck)
+        public static bool CheckWin(string[] wordToCheck)
         {
             if (Array.IndexOf(wordToCheck, "_") == -1)
             {
@@ -244,7 +246,7 @@ namespace LAB03_WordGuessGame
         /// <summary>
         /// Initiates games
         /// </summary>
-        static void PlayGame(string path)
+        public static void PlayGame(string path)
         {
             string[] guessedLetters = new string[27];
             guessedLetters[0] = " ";
@@ -278,7 +280,7 @@ namespace LAB03_WordGuessGame
         /// <summary>
         /// Method deletes word bank text file.
         /// </summary>
-        static void DeleteWordBankFile(string path)
+        public static void DeleteWordBankFile(string path)
         {
             File.Delete(path);
         }
