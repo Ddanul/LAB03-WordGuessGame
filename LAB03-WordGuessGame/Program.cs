@@ -12,7 +12,6 @@ namespace LAB03_WordGuessGame
 
             CreateWordBankFile(path);
             Controller();
-
         }
 
         static void Controller()
@@ -142,7 +141,7 @@ namespace LAB03_WordGuessGame
         static void RemoveWordFromBank(string removeWord, string path)
         {
             string[] words = File.ReadAllLines(path);
-            int indexOfWordInArray = Array.IndexOf(words, removeWord);
+            int indexOfWordInArray = Array.IndexOf(words, removeWord.ToUpper());
 
             if (indexOfWordInArray < 0)
             {
@@ -263,22 +262,17 @@ namespace LAB03_WordGuessGame
                 DisplayCharArray(guessedLetters);
                 //Ask for new letter from user
                 Console.Write("Guess A Letter: ");
-                guessedLetters[count] = Console.ReadLine();
+                guessedLetters[count] = Console.ReadLine().ToUpper();
                 count++;
+                Console.Clear();
             }
 
             if (count == 26)
             {
                 Console.WriteLine("You ran out of tries!");
-                Console.WriteLine($"The word was: {randomWord}");
-                Console.WriteLine("Great Game!");
             }
-            else
-            {
-                Console.WriteLine("The word was: ");
-                DisplayCharArray(UpdateWordWithGuesses(randomWord, guessedLetters));
-                Console.WriteLine("Great Game!");
-            }
+            Console.WriteLine($"The word was: {randomWord}");
+            Console.WriteLine("Great Game!");
         }
 
         /// <summary>
