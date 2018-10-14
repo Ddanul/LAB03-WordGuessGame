@@ -142,13 +142,39 @@ namespace LAB03_WordGuessGame
         {
             string[] words = File.ReadAllLines(path);
             int indexOfWordInArray = Array.IndexOf(words, removeWord);
+
             if (indexOfWordInArray < 0)
             {
                 Console.WriteLine("Word not found.");
             }
             else
             {
-                 
+                //make new array without word
+                string[] newWords = new string[words.Length-1];
+                for(int i=0; i<words.Length; i++)
+                {
+                    if(i == indexOfWordInArray)
+                    {
+                        continue;
+                    }
+                    else if(i < indexOfWordInArray)
+                    {
+                        newWords[i] = words[i];
+                    }
+                    else
+                    {
+                        newWords[i-1] = words[i];
+                    }
+                }
+                //re-write words to file without deleted word
+                try
+                {
+                    File.WriteAllLines(path, newWords);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"You got an error: {e.Message}");
+                }
                 Console.WriteLine($"'{removeWord}' was removed from the word bank");
             }
         }
